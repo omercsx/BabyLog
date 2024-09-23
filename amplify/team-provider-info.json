@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-babylog-staging-687b1-authRole",
+      "UnauthRoleArn": "arn:aws:iam::975050218054:role/amplify-babylog-staging-687b1-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::975050218054:role/amplify-babylog-staging-687b1-authRole",
+      "Region": "ca-central-1",
+      "DeploymentBucketName": "amplify-babylog-staging-687b1-deployment",
+      "UnauthRoleName": "amplify-babylog-staging-687b1-unauthRole",
+      "StackName": "amplify-babylog-staging-687b1",
+      "StackId": "arn:aws:cloudformation:ca-central-1:975050218054:stack/amplify-babylog-staging-687b1/4057c4e0-79da-11ef-990b-02fddbd351ab",
+      "AmplifyAppId": "d1wmxrpyo32911"
+    },
+    "categories": {
+      "auth": {
+        "BabyLog": {}
+      }
+    }
+  }
+}
