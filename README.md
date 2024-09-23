@@ -4,10 +4,10 @@
 
 Team Members:
 
-Omer Cagri SAYIR
-Gurpreet KAUR
-Bolaji ABDUL
-Akeem ADEJUMO
+- Omer Cagri SAYIR
+- Gurpreet KAUR
+- Bolaji ABDUL
+- Akeem ADEJUMO
 
 ## To Start
 
