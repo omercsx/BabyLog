@@ -5,13 +5,9 @@ import {
   TouchableOpacity,
   type ImageSourcePropType,
 } from 'react-native';
-import colors from '../../constants/colors';
 import placeholderImage from '../../assets/sign_in_baby.png';
 import {useNavigation} from '@react-navigation/native';
-import type {
-  HomeScreenNavigationProp,
-  HomeStackNavigatorParamList,
-} from '../../types/navigation';
+import type {HomeScreenNavigationProp} from '../../types/navigation';
 
 interface ActivityButtonProps {
   image?: ImageSourcePropType;
