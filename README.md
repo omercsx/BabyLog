@@ -12,3 +12,4 @@ Team Members:
 ## To Start
 
 1. Install the repository
+2. `npm run start`
