@@ -8,7 +8,36 @@ export type RootNavigatorParamList = {
 
 export type HomeStackNavigatorParamList = {
   Home: undefined;
+  FeedingActivityScreen: undefined;
+  DiaperActivityScreen: undefined;
+  SleepingActivityScreen: undefined;
+  AppointmentActivityScreen: undefined;
 };
+
+export type HomeScreenNavigationProp = NativeStackNavigationProp<
+  HomeStackNavigatorParamList,
+  'Home'
+>;
+
+export type FeedingActivityScreenNavigationProp = NativeStackNavigationProp<
+  HomeStackNavigatorParamList,
+  'FeedingActivityScreen'
+>;
+
+export type DiaperActivityScreenNavigationProp = NativeStackNavigationProp<
+  HomeStackNavigatorParamList,
+  'DiaperActivityScreen'
+>;
+
+export type SleepingActivityScreenNavigationProp = NativeStackNavigationProp<
+  HomeStackNavigatorParamList,
+  'SleepingActivityScreen'
+>;
+
+export type AppointmentActivityScreenNavigationProp = NativeStackNavigationProp<
+  HomeStackNavigatorParamList,
+  'AppointmentActivityScreen'
+>;
 
 export type BottomTabNavigatorParamList = {
   Home: undefined;
