@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import colors from '../../constants/colors';
 import Welcome from './Welcome';
 import ActivityButton from './ActivityButton';
@@ -11,15 +11,17 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <Welcome />
-      <Text style={styles.logActivitiesText}>Log activities</Text>
-      <View style={styles.activityContainer}>
-        <ActivityButton text="Feeding" image={feeding} />
-        <ActivityButton text="Diaper" image={diaper} />
-      </View>
-      <View style={styles.activityContainer}>
-        <ActivityButton text="Sleeping" image={sleeping} />
-        <ActivityButton text="Appointment" image={appointment} />
-      </View>
+      <ScrollView>
+        <Text style={styles.logActivitiesText}>Log activities</Text>
+        <View style={styles.activityContainer}>
+          <ActivityButton text="Feeding" image={feeding} />
+          <ActivityButton text="Diaper" image={diaper} />
+        </View>
+        <View style={styles.activityContainer}>
+          <ActivityButton text="Sleeping" image={sleeping} />
+          <ActivityButton text="Appointment" image={appointment} />
+        </View>
+      </ScrollView>
     </View>
   );
 };
