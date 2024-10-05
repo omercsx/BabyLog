@@ -2,6 +2,10 @@ import {StyleSheet, Text, View} from 'react-native';
 import colors from '../../constants/colors';
 import Welcome from './Welcome';
 import ActivityButton from './ActivityButton';
+import diaper from '../../assets/diaper.png';
+import feeding from '../../assets/baby_feed.jpg';
+import sleeping from '../../assets/sleeping.png';
+import appointment from '../../assets/calendar.jpg';
 
 const Home = () => {
   return (
@@ -9,12 +13,12 @@ const Home = () => {
       <Welcome />
       <Text style={styles.logActivitiesText}>Log activities</Text>
       <View style={styles.activityContainer}>
-        <ActivityButton text="Feeding" />
-        <ActivityButton text="Diaper" />
+        <ActivityButton text="Feeding" image={feeding} />
+        <ActivityButton text="Diaper" image={diaper} />
       </View>
       <View style={styles.activityContainer}>
-        <ActivityButton text="Sleeping" />
-        <ActivityButton text="Appointment" />
+        <ActivityButton text="Sleeping" image={sleeping} />
+        <ActivityButton text="Appointment" image={appointment} />
       </View>
     </View>
   );
