@@ -12,4 +12,5 @@ Team Members:
 ## To Start
 
 1. Install the repository
-2. `npm run start`
+2. `npx pod-install` (for iOS)
+3. `npm run start`
