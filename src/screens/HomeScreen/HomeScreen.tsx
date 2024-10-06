@@ -6,12 +6,13 @@ import diaper from '../../assets/diaper.png';
 import feeding from '../../assets/baby_feed.jpg';
 import sleeping from '../../assets/sleeping.png';
 import appointment from '../../assets/calendar.jpg';
+import LogCard from './LogCard';
 
 const Home = () => {
   return (
     <View style={styles.container}>
       <Welcome />
-      <ScrollView>
+      <View>
         <Text style={styles.logActivitiesText}>Log activities</Text>
         <View style={styles.activityContainer}>
           <ActivityButton text="Feeding" image={feeding} />
@@ -21,7 +22,11 @@ const Home = () => {
           <ActivityButton text="Sleeping" image={sleeping} />
           <ActivityButton text="Appointment" image={appointment} />
         </View>
-      </ScrollView>
+        <Text style={styles.logsText}>Logs</Text>
+        <ScrollView style={styles.logsContainer}>
+          <LogCard />
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -35,10 +40,21 @@ const styles = StyleSheet.create({
     gap: 20,
   },
 
+  logsContainer: {
+    marginHorizontal: 20,
+  },
+
   logActivitiesText: {
     fontSize: 20,
     fontWeight: 'bold',
     marginHorizontal: 20,
+  },
+
+  logsText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginHorizontal: 20,
+    marginTop: 20,
   },
 
   activityContainer: {
