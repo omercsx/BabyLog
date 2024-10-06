@@ -46,6 +46,7 @@ const DiaperActivityScreen = () => {
           />
         )}
       />
+      <Text style={styles.error}>{errors.color?.message}</Text>
 
       <Controller
         control={control}
@@ -62,6 +63,7 @@ const DiaperActivityScreen = () => {
           />
         )}
       />
+      <Text style={styles.error}>{errors.state?.message}</Text>
       <Button title="Submit" onPress={handleSubmit(onSubmit)} />
     </View>
   );
@@ -75,9 +77,15 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: 'white',
   },
+
   title: {
     fontSize: 24,
     fontWeight: 'bold',
+    marginBottom: 16,
+  },
+
+  error: {
+    color: 'red',
     marginBottom: 16,
   },
 });
