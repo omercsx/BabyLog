@@ -20,36 +20,36 @@ const Navigation = () => {
     );
   }
 
-  // return (
-  // 	<NavigationContainer>
-  // 		<Stack.Navigator screenOptions={{ headerShown: true }}>
-  // 			{user === null ? (
-  // 				<Stack.Screen
-  // 					name='Auth'
-  // 					component={AuthStackNavigator}
-  // 					options={{ headerShown: false }}
-  // 				/>
-  // 			) : (
-  // 				<Stack.Screen
-  // 					name='Home'
-  // 					component={BottomTabNavigator}
-  // 					options={{ headerShown: false }}
-  // 				/>
-  // 			)}
-  // 		</Stack.Navigator>
-  // 	</NavigationContainer>
-  // );
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: true}}>
-        <Stack.Screen
-          name="Home"
-          component={BottomTabNavigator}
-          options={{headerShown: false}}
-        />
+        {user === null ? (
+          <Stack.Screen
+            name="Auth"
+            component={AuthStackNavigator}
+            options={{headerShown: false}}
+          />
+        ) : (
+          <Stack.Screen
+            name="Home"
+            component={BottomTabNavigator}
+            options={{headerShown: false}}
+          />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
+  // return (
+  //   <NavigationContainer>
+  //     <Stack.Navigator screenOptions={{headerShown: true}}>
+  //       <Stack.Screen
+  //         name="Home"
+  //         component={BottomTabNavigator}
+  //         options={{headerShown: false}}
+  //       />
+  //     </Stack.Navigator>
+  //   </NavigationContainer>
+  // );
 };
 
 const styles = StyleSheet.create({

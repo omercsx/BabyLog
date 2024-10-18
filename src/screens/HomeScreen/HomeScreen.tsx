@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 
   activityContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
     marginHorizontal: 20,
   },

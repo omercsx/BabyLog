@@ -23,14 +23,14 @@ const Welcome = () => {
   }
   return (
     <Text style={styles.welcomeText}>
-      {greeting}, {user?.username ? user.username : 'Omer'}
+      {greeting}, {user?.username ? user.signInDetails?.loginId : 'Omer'}
     </Text>
   );
 };
 export default Welcome;
 const styles = StyleSheet.create({
   welcomeText: {
-    fontSize: 32,
+    fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 20,
