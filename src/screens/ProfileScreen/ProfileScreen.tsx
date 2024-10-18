@@ -1,12 +1,22 @@
-import { signOut } from 'aws-amplify/auth';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import {signOut, getCurrentUser, type AuthUser} from 'aws-amplify/auth';
+import {useEffect, useState} from 'react';
+import {Button, StyleSheet, Text, View} from 'react-native';
+
 const ProfileScreen = () => {
-	return (
-		<View>
-			<Button title='Sign out' onPress={() => signOut()} />
-			<Text>ProfileScreen</Text>
-		</View>
-	);
+  const [user, setUser] = useState<AuthUser | undefined>(undefined);
+
+  useEffect(() => {
+    getCurrentUser().then(user => {
+      setUser(user);
+    });
+  }, []);
+
+  return (
+    <View>
+      <Text>{user?.signInDetails?.loginId}</Text>
+      <Button title="Sign out" onPress={() => signOut()} />
+    </View>
+  );
 };
 export default ProfileScreen;
 const styles = StyleSheet.create({});
