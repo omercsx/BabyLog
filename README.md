@@ -1,6 +1,6 @@
 # BabyLog
 
-## A newborn baby activity tracking app
+## A newborn baby activity tracking app the keeps trck of baby's growth.
 
 Team Members:
 
