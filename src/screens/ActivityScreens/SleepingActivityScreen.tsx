@@ -6,11 +6,20 @@ import {
   TouchableOpacity,
   Platform,
   Button,
+  Alert,
+  ScrollView,
 } from 'react-native';
 import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
 import colors from '../../constants/colors';
+import { createSleepActivity, getSleepActivities } from '../../api/sleeping';
+
+interface SleepActivity {
+  id: string;
+  sleep: string;
+  wake: string;
+}
 
 const SleepingActivityScreen = () => {
   const [sleepTime, setSleepTime] = useState(new Date());
@@ -18,10 +27,25 @@ const SleepingActivityScreen = () => {
   const [showSleepPicker, setShowSleepPicker] = useState(false);
   const [showWakePicker, setShowWakePicker] = useState(false);
   const [totalSleepTime, setTotalSleepTime] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [sleepActivities, setSleepActivities] = useState<SleepActivity[]>([]);
 
   useEffect(() => {
     calculateTotalSleep();
   }, [sleepTime, wakeTime]);
+
+  useEffect(() => {
+    fetchSleepActivities();
+  }, []);
+
+  const fetchSleepActivities = async () => {
+    try {
+      const activities = await getSleepActivities();
+      setSleepActivities(activities as SleepActivity[]);
+    } catch (error) {
+      Alert.alert('Error', 'Could not fetch sleep activities');
+    }
+  };
 
   const calculateTotalSleep = () => {
     const diff = wakeTime.getTime() - sleepTime.getTime();
@@ -40,23 +64,41 @@ const SleepingActivityScreen = () => {
     }
   };
 
-  const onWakeTimeChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+  const onWakeTimeChange = (
+    event: DateTimePickerEvent,
+    selectedDate?: Date,
+  ) => {
     setShowWakePicker(Platform.OS === 'ios');
     if (selectedDate) {
       setWakeTime(selectedDate);
     }
   };
 
-  const handleSubmit = () => {
-    console.log({
-      sleepTime,
-      wakeTime,
-      totalSleepTime,
-    });
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    try {
+      await createSleepActivity({
+        sleep: sleepTime.toISOString(),
+        wake: wakeTime.toISOString(),
+      });
+      Alert.alert('Success', 'Sleep activity recorded successfully');
+      fetchSleepActivities();
+    } catch (error) {
+      Alert.alert('Error', 'Could not save sleep activity');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const formatDuration = (sleep: string, wake: string) => {
+    const diff = new Date(wake).getTime() - new Date(sleep).getTime();
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}h ${minutes}m`;
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.card}>
         <Text style={styles.title}>Sleep Time</Text>
         <TouchableOpacity
@@ -102,8 +144,36 @@ const SleepingActivityScreen = () => {
         <Text style={styles.totalSleepTime}>{totalSleepTime}</Text>
       </View>
 
-      <Button title="Save Sleep Record" onPress={handleSubmit} />
-    </View>
+      <Button
+        title={isLoading ? 'Saving...' : 'Save Sleep Record'}
+        onPress={handleSubmit}
+        disabled={isLoading}
+      />
+
+      <View style={styles.sleepHistoryContainer}>
+        <Text style={styles.historyTitle}>Sleep History</Text>
+        {sleepActivities.map(activity => (
+          <View key={activity.id} style={styles.historyCard}>
+            <View style={styles.historyHeader}>
+              <Text style={styles.historyDate}>
+                {new Date(activity.sleep).toLocaleDateString()}
+              </Text>
+              <Text style={styles.historyDuration}>
+                {formatDuration(activity.sleep, activity.wake)}
+              </Text>
+            </View>
+            <View style={styles.historyTimes}>
+              <Text style={styles.timeText}>
+                Sleep: {new Date(activity.sleep).toLocaleTimeString()}
+              </Text>
+              <Text style={styles.timeText}>
+                Wake: {new Date(activity.wake).toLocaleTimeString()}
+              </Text>
+            </View>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
   );
 };
 
@@ -171,5 +241,51 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     color: colors.black,
+  },
+  sleepHistoryContainer: {
+    marginTop: 20,
+    padding: 15,
+  },
+  historyTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    color: colors.primary,
+  },
+  historyCard: {
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  historyHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  historyDate: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.black,
+  },
+  historyDuration: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: colors.primary,
+  },
+  historyTimes: {
+    gap: 4,
+  },
+  timeText: {
+    fontSize: 14,
+    color: colors.inputText,
   },
 });
