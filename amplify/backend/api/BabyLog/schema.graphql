@@ -1,0 +1,36 @@
+type Appointment @model @auth(rules: [{allow: public}, {allow: owner}]) {
+  id: ID!
+  date: AWSDateTime
+  title: String
+}
+
+type Sleep @model @auth(rules: [{allow: public}, {allow: owner}]) {
+  id: ID!
+  sleep: AWSDateTime
+  wake: AWSDateTime
+}
+
+enum PoopState {
+  SOLID
+  LIQUID
+}
+
+enum PoopColor {
+  YELLOW
+  GREEN
+  BROWN
+}
+
+type Diaper @model @auth(rules: [{allow: public}, {allow: owner}]) {
+  id: ID!
+  color: PoopColor
+  state: PoopState
+  time: AWSDateTime
+}
+
+type Feeding @model @auth(rules: [{allow: public}, {allow: owner}]) {
+  id: ID!
+  food_type: String
+  amount: Int
+  time: AWSDateTime
+}
