@@ -1,0 +1,16 @@
+projects:
+  BabyLog:
+    schemaPath: amplify/backend/api/BabyLog/build/schema.graphql
+    includes:
+      - src/api/graphl/
+    excludes:
+      - ./amplify/**
+      - src/API.ts
+    extensions:
+      amplify:
+        codeGenTarget: typescript
+        generatedFileName: src/API.ts
+        docsFilePath: src/api/graphl
+        region: ca-central-1
+        apiId: null
+        maxDepth: 2
