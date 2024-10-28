@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import colors from '../../constants/colors';
 
 const LogCard = () => {

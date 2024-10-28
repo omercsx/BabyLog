@@ -6,13 +6,13 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import {Controller, useForm, type FieldValues} from 'react-hook-form';
+import { Controller, useForm, type FieldValues } from 'react-hook-form';
 
 const FeedingActivityScreen = () => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm({
     defaultValues: {
       amount: 0,
@@ -30,8 +30,8 @@ const FeedingActivityScreen = () => {
       <Controller
         control={control}
         name="type"
-        rules={{required: true}}
-        render={({field: {onChange, value}}) => (
+        rules={{ required: true }}
+        render={({ field: { onChange, value } }) => (
           <TextInput
             style={styles.input}
             onChangeText={onChange}
@@ -46,8 +46,8 @@ const FeedingActivityScreen = () => {
       <Controller
         control={control}
         name="amount"
-        rules={{required: true}}
-        render={({field: {onChange, value}}) => (
+        rules={{ required: true }}
+        render={({ field: { onChange, value } }) => (
           <TextInput
             style={styles.input}
             onChangeText={onChange}
@@ -63,11 +63,11 @@ const FeedingActivityScreen = () => {
         <Text style={styles.label}>Last Feeding Activities</Text>
         <FlatList
           data={[
-            {type: 'Milk', amount: 100, date: new Date('2024-02-14')},
-            {type: 'Milk', amount: 100, date: new Date('2024-02-13')},
-            {type: 'Milk', amount: 100, date: new Date('2024-02-12')},
+            { type: 'Milk', amount: 100, date: new Date('2024-02-14') },
+            { type: 'Milk', amount: 100, date: new Date('2024-02-13') },
+            { type: 'Milk', amount: 100, date: new Date('2024-02-12') },
           ]}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <Text>
               {item.type} - {item.amount} ml - {item.date.toLocaleDateString()}
             </Text>

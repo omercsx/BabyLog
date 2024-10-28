@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react';
-import {getCurrentUser, type AuthUser} from 'aws-amplify/auth';
-import {StyleSheet, Text} from 'react-native';
+import { useEffect, useState } from 'react';
+import { getCurrentUser, type AuthUser } from 'aws-amplify/auth';
+import { StyleSheet, Text } from 'react-native';
 
 const Welcome = () => {
   const [user, setUser] = useState<AuthUser | undefined>(undefined);

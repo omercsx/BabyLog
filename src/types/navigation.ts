@@ -1,5 +1,5 @@
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import type {RouteProp} from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RouteProp } from '@react-navigation/native';
 
 export type RootNavigatorParamList = {
   Home: undefined;
@@ -49,7 +49,7 @@ export type BottomTabNavigatorParamList = {
 export type AuthStackNavigatorParamList = {
   'Sign in': undefined;
   'Sign up': undefined;
-  'Confirm email': {email?: string};
+  'Confirm email': { email?: string };
   'Forgot password': undefined;
   'New password': undefined;
 };

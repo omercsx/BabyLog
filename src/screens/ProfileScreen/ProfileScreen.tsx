@@ -1,6 +1,6 @@
-import {signOut, getCurrentUser, type AuthUser} from 'aws-amplify/auth';
-import {useEffect, useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import { signOut, getCurrentUser, type AuthUser } from 'aws-amplify/auth';
+import { useEffect, useState } from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
 
 const ProfileScreen = () => {
   const [user, setUser] = useState<AuthUser | undefined>(undefined);

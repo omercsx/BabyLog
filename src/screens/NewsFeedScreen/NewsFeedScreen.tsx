@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet} from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import NewsCard from './NewsCard';
 import femaleDoctor from '../../assets/female-doctor.webp';
 import doctor from '../../assets/doctor.jpg';

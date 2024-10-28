@@ -6,8 +6,8 @@ import {
   type ImageSourcePropType,
 } from 'react-native';
 import placeholderImage from '../../assets/sign_in_baby.png';
-import {useNavigation} from '@react-navigation/native';
-import type {HomeScreenNavigationProp} from '../../types/navigation';
+import { useNavigation } from '@react-navigation/native';
+import type { HomeScreenNavigationProp } from '../../types/navigation';
 
 interface ActivityButtonProps {
   image?: ImageSourcePropType;

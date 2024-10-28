@@ -1,5 +1,5 @@
-import {Button, StyleSheet, Text, View} from 'react-native';
-import {Controller, useForm, type FieldValues} from 'react-hook-form';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { Controller, useForm, type FieldValues } from 'react-hook-form';
 import Picker from './components/Picker';
 
 enum PoopState {
@@ -17,7 +17,7 @@ const DiaperActivityScreen = () => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm({
     defaultValues: {
       color: PoopColor.Yellow,
@@ -34,7 +34,7 @@ const DiaperActivityScreen = () => {
       <Controller
         control={control}
         name="color"
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <Picker
             label="Color"
             items={Object.values(PoopColor).map(color => ({
@@ -51,7 +51,7 @@ const DiaperActivityScreen = () => {
       <Controller
         control={control}
         name="state"
-        render={({field: {onChange, value}}) => (
+        render={({ field: { onChange, value } }) => (
           <Picker
             label="State"
             items={Object.values(PoopState).map(state => ({

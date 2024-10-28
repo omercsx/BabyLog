@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View, type ImageProps} from 'react-native';
+import { Image, StyleSheet, Text, View, type ImageProps } from 'react-native';
 import React from 'react';
 
 interface NewsCardProps {

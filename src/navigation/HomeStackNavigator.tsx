@@ -1,7 +1,7 @@
-import {Image} from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { Image } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import {HomeStackNavigatorParamList} from '../types/navigation';
+import { HomeStackNavigatorParamList } from '../types/navigation';
 import HomeScreen from '../screens/HomeScreen';
 
 import logo from '../assets/babylogpng.png';
@@ -18,27 +18,27 @@ const HomeStackNavigator = () => {
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{headerTitle: HeaderTitle}}
+        options={{ headerTitle: HeaderTitle }}
       />
       <Stack.Screen
         name="FeedingActivityScreen"
         component={FeedingActivityScreen}
-        options={{headerTitle: 'Feeding'}}
+        options={{ headerTitle: 'Feeding' }}
       />
       <Stack.Screen
         name="DiaperActivityScreen"
         component={DiaperActivityScreen}
-        options={{headerTitle: 'Diaper'}}
+        options={{ headerTitle: 'Diaper' }}
       />
       <Stack.Screen
         name="SleepingActivityScreen"
         component={SleepingActivityScreen}
-        options={{headerTitle: 'Sleeping'}}
+        options={{ headerTitle: 'Sleeping' }}
       />
       <Stack.Screen
         name="AppointmentActivityScreen"
         component={AppointmentActivityScreen}
-        options={{headerTitle: 'Appointment'}}
+        options={{ headerTitle: 'Appointment' }}
       />
     </Stack.Navigator>
   );
@@ -49,7 +49,7 @@ const HeaderTitle = () => {
     <Image
       source={logo}
       resizeMode="contain"
-      style={{width: 100, height: 50}}
+      style={{ width: 100, height: 50 }}
     />
   );
 };

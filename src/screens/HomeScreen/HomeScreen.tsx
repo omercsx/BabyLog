@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import colors from '../../constants/colors';
 import Welcome from './Welcome';
 import ActivityButton from './ActivityButton';
