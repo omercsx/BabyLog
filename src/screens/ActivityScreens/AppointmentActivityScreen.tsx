@@ -1,46 +1,104 @@
+import { useState, useEffect } from 'react';
 import {
-  Button,
-  FlatList,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
+  TouchableOpacity,
+  Platform,
+  Button,
+  Alert,
+  FlatList,
+  TextInput,
+  ScrollView,
 } from 'react-native';
-import { useState } from 'react';
 import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
 import colors from '../../constants/colors';
+import {
+  createAppointmentActivity,
+  getAppointmentActivities,
+} from '../../api/appointment';
 
 interface Appointment {
   id: string;
-  date: Date;
-  remainingTime: string;
+  title: string;
+  date: string;
+  note?: string;
 }
 
 const AppointmentActivityScreen = () => {
+  const [title, setTitle] = useState('');
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pastAppointments, setPastAppointments] = useState<Appointment[]>([]);
+  const [upcomingAppointments, setUpcomingAppointments] = useState<
+    Appointment[]
+  >([]);
+
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
+
+  const fetchAppointments = async () => {
+    try {
+      const activities = await getAppointmentActivities();
+      const now = new Date();
+
+      const sorted = (activities as unknown as Appointment[]).sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+      );
+
+      setPastAppointments(sorted.filter(app => new Date(app.date) < now));
+      setUpcomingAppointments(sorted.filter(app => new Date(app.date) >= now));
+    } catch (error) {
+      Alert.alert('Error', 'Could not fetch appointments');
+    }
+  };
 
   const onDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    setShowDatePicker(false);
+    setShowDatePicker(Platform.OS === 'ios');
     if (selectedDate) {
       setDate(selectedDate);
     }
   };
 
   const onTimeChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    setShowTimePicker(false);
+    setShowTimePicker(Platform.OS === 'ios');
     if (selectedDate) {
       setDate(selectedDate);
     }
   };
 
-  const calculateRemainingTime = (appointmentDate: Date): string => {
+  const saveAppointment = async () => {
+    if (!title.trim()) {
+      Alert.alert('Error', 'Please enter an appointment title');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await createAppointmentActivity({
+        title: title.trim() || '', // Add fallback empty string
+        date: date.toISOString(),
+      });
+      setTitle('');
+      fetchAppointments();
+      Alert.alert('Success', 'Appointment saved successfully');
+    } catch (error) {
+      Alert.alert('Error', 'Could not save appointment');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const calculateRemainingTime = (appointmentDate: string): string => {
     const now = new Date();
-    const diff = appointmentDate.getTime() - now.getTime();
+    const appDate = new Date(appointmentDate);
+    const diff = appDate.getTime() - now.getTime();
 
     if (diff < 0) {
       return 'Past appointment';
@@ -55,20 +113,20 @@ const AppointmentActivityScreen = () => {
     return `${hours} hours remaining`;
   };
 
-  const saveAppointment = () => {
-    const newAppointment: Appointment = {
-      id: Date.now().toString(),
-      date: date,
-      remainingTime: calculateRemainingTime(date),
-    };
-
-    setAppointments(prev => [...prev, newAppointment]);
-  };
-
   const renderAppointment = ({ item }: { item: Appointment }) => (
-    <View style={styles.appointmentCard}>
+    <View
+      style={
+        new Date(item.date) < new Date()
+          ? styles.pastAppointmentCard
+          : styles.appointmentCard
+      }>
+      <Text style={styles.appointmentTitle}>{item.title}</Text>
       <Text style={styles.appointmentDate}>
-        {item.date.toLocaleDateString()} {item.date.toLocaleTimeString()}
+        {new Date(item.date).toLocaleDateString()}{' '}
+        {new Date(item.date).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        })}
       </Text>
       <Text style={styles.remainingTime}>
         {calculateRemainingTime(item.date)}
@@ -77,9 +135,21 @@ const AppointmentActivityScreen = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Select Date and Time</Text>
+    <ScrollView style={styles.scrollContainer}>
+      <View style={styles.container}>
+        <View style={styles.formContainer}>
+          <Text style={styles.title}>New Appointment</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Title</Text>
+            <TextInput
+              style={styles.input}
+              value={title}
+              onChangeText={setTitle}
+              placeholder="Enter appointment title"
+            />
+          </View>
+        </View>
+
         <View style={styles.dateTimeContainer}>
           <TouchableOpacity
             style={styles.dateTimeButton}
@@ -92,7 +162,10 @@ const AppointmentActivityScreen = () => {
             style={styles.dateTimeButton}
             onPress={() => setShowTimePicker(true)}>
             <Text style={styles.dateTimeButtonText}>
-              {date.toLocaleTimeString()}
+              {date.toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
             </Text>
           </TouchableOpacity>
         </View>
@@ -106,40 +179,55 @@ const AppointmentActivityScreen = () => {
           />
         )}
         {showTimePicker && (
-          <DateTimePicker
-            value={date}
-            mode="time"
-            onChange={onTimeChange}
-            minimumDate={new Date()}
-          />
+          <DateTimePicker value={date} mode="time" onChange={onTimeChange} />
         )}
 
-        <Button title="Save Appointment" onPress={saveAppointment} />
+        <Button
+          title={isLoading ? 'Saving...' : 'Save Appointment'}
+          onPress={saveAppointment}
+          disabled={isLoading}
+        />
       </View>
 
       <View style={styles.appointmentsContainer}>
-        <Text style={styles.label}>Upcoming Appointments</Text>
+        <Text style={styles.sectionTitle}>Upcoming Appointments</Text>
         <FlatList
-          data={appointments}
+          data={upcomingAppointments}
           renderItem={renderAppointment}
           keyExtractor={item => item.id}
-          style={styles.list}
+          scrollEnabled={false}
+          nestedScrollEnabled
+        />
+
+        <Text style={[styles.sectionTitle, { marginTop: 20 }]}>
+          Past Appointments
+        </Text>
+        <FlatList
+          data={pastAppointments}
+          renderItem={renderAppointment}
+          keyExtractor={item => item.id}
+          scrollEnabled={false}
+          nestedScrollEnabled
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
   container: {
     flex: 1,
     padding: 20,
     backgroundColor: colors.white,
   },
-  inputContainer: {
+  formContainer: {
     marginBottom: 20,
   },
-  label: {
+  title: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
@@ -182,6 +270,42 @@ const styles = StyleSheet.create({
   remainingTime: {
     fontSize: 14,
     color: 'gray',
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  inputContainer: {
+    marginBottom: 15,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: '500',
+    marginBottom: 5,
+    color: colors.black,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.primary,
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+  },
+  appointmentTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: colors.primary,
+  },
+  pastAppointmentCard: {
+    backgroundColor: colors.white,
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 10,
+    borderWidth: 1,
+    opacity: 0.7,
+    borderColor: colors.inputText,
   },
 });
 
