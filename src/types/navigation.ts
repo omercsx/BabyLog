@@ -7,7 +7,7 @@ export type RootNavigatorParamList = {
 };
 
 export type HomeStackNavigatorParamList = {
-  Home: undefined;
+  HomeScreen: undefined;
   FeedingActivityScreen: undefined;
   DiaperActivityScreen: undefined;
   SleepingActivityScreen: undefined;
@@ -16,7 +16,7 @@ export type HomeStackNavigatorParamList = {
 
 export type HomeScreenNavigationProp = NativeStackNavigationProp<
   HomeStackNavigatorParamList,
-  'Home'
+  'HomeScreen'
 >;
 
 export type FeedingActivityScreenNavigationProp = NativeStackNavigationProp<
