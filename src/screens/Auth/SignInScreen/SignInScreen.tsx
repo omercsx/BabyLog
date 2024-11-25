@@ -6,6 +6,9 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import {useForm, type FieldValues, type Control} from 'react-hook-form';
 import {useNavigation} from '@react-navigation/native';
@@ -74,64 +77,79 @@ const SignInScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Image source={logo} resizeMode="contain" style={styles.logo} />
-      <Image source={babyImage} resizeMode="contain" style={styles.babyImage} />
-      <View style={styles.formContainer}>
-        <Text style={styles.welcomeText}>Welcome back! Sign In Now!</Text>
-        <View style={styles.inputContainer}>
-          <FormInput
-            name="email"
-            placeholder="E-mail"
-            control={control as unknown as Control<FieldValues>}
-            rules={{required: 'E-mail is required'}}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <FormInput
-            name="password"
-            placeholder="Password"
-            secureTextEntry={!isPasswordVisible}
-            control={control as unknown as Control<FieldValues>}
-            rules={{
-              required: 'Password is required',
-              minLength: {
-                value: 3,
-                message: 'Password should be minimum 6 characters long',
-              },
-            }}
-          />
-          <TouchableOpacity
-            onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-            style={styles.eyeIconContainer}>
-            <Feather
-              name={isPasswordVisible ? 'eye' : 'eye-off'}
-              size={22}
-              color={colors.inputText}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+      >
+        <Image source={logo} resizeMode="contain" style={styles.logo} />
+        <Image source={babyImage} resizeMode="contain" style={styles.babyImage} />
+        <View style={styles.formContainer}>
+          <Text style={styles.welcomeText}>Welcome back! Sign In Now!</Text>
+          <View style={styles.inputContainer}>
+            <FormInput
+              name="email"
+              placeholder="E-mail"
+              control={control as unknown as Control<FieldValues>}
+              rules={{required: 'E-mail is required'}}
             />
+          </View>
+          <View style={styles.inputContainer}>
+            <FormInput
+              name="password"
+              placeholder="Password"
+              secureTextEntry={!isPasswordVisible}
+              control={control as unknown as Control<FieldValues>}
+              rules={{
+                required: 'Password is required',
+                minLength: {
+                  value: 6,
+                  message: 'Password should be minimum 6 characters long',
+                },
+              }}
+            />
+            <TouchableOpacity
+              onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+              style={styles.eyeIconContainer}
+            >
+              <Feather
+                name={isPasswordVisible ? 'eye' : 'eye-off'}
+                size={22}
+                color={colors.inputText}
+              />
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            onPress={handleSubmit(handleSignIn)}
+            style={styles.signInButton}
+          >
+            <Text style={styles.signInButtonText}>Sign In</Text>
           </TouchableOpacity>
+          <Text onPress={handleForgotPassword} style={styles.forgotPasswordText}>
+            Forgot Password?
+          </Text>
+          <Text onPress={handleSignUp} style={styles.signUpText}>
+            Don't have an account? Sign Up
+          </Text>
         </View>
-        <TouchableOpacity
-          onPress={handleSubmit(handleSignIn)}
-          style={styles.signInButton}>
-          <Text style={styles.signInButtonText}>Sign In</Text>
-        </TouchableOpacity>
-        <Text onPress={handleForgotPassword} style={styles.forgotPasswordText}>
-          Forgot Password?
-        </Text>
-        <Text onPress={handleSignUp} style={styles.signUpText}>
-          Don't have an account? Sign Up
-        </Text>
-      </View>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 export default SignInScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+  },
+  scrollContent: {
+    flexGrow: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 20,
   },
   babyImage: {
     width: '100%',
