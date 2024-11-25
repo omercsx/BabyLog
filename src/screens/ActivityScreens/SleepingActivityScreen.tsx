@@ -48,7 +48,13 @@ const SleepingActivityScreen = () => {
   };
 
   const calculateTotalSleep = () => {
-    const diff = wakeTime.getTime() - sleepTime.getTime();
+    let diff = wakeTime.getTime() - sleepTime.getTime();
+    // If wake time is earlier than sleep time, assume it's the next day
+    if (diff < 0) {
+      const nextDayWakeTime = new Date(wakeTime);
+      nextDayWakeTime.setDate(nextDayWakeTime.getDate() + 1);
+      diff = nextDayWakeTime.getTime() - sleepTime.getTime();
+    }
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     setTotalSleepTime(`${hours} hours ${minutes} minutes`);
@@ -61,6 +67,12 @@ const SleepingActivityScreen = () => {
     setShowSleepPicker(Platform.OS === 'ios');
     if (selectedDate) {
       setSleepTime(selectedDate);
+      // If sleep time is after wake time, adjust wake time to next day
+      if (selectedDate.getTime() > wakeTime.getTime()) {
+        const newWakeTime = new Date(selectedDate);
+        newWakeTime.setDate(newWakeTime.getDate() + 1);
+        setWakeTime(newWakeTime);
+      }
     }
   };
 
@@ -70,7 +82,14 @@ const SleepingActivityScreen = () => {
   ) => {
     setShowWakePicker(Platform.OS === 'ios');
     if (selectedDate) {
-      setWakeTime(selectedDate);
+      // If wake time is before sleep time, assume it's the next day
+      if (selectedDate.getTime() < sleepTime.getTime()) {
+        const nextDayWakeTime = new Date(selectedDate);
+        nextDayWakeTime.setDate(nextDayWakeTime.getDate() + 1);
+        setWakeTime(nextDayWakeTime);
+      } else {
+        setWakeTime(selectedDate);
+      }
     }
   };
 
