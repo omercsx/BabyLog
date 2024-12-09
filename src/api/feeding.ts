@@ -3,7 +3,9 @@ import { listFeedings } from './graphql/queries';
 import { createFeeding } from './graphql/mutations';
 import type { CreateFeedingInput } from './API';
 
-const client = generateClient();
+const client = generateClient({
+  authMode: 'userPool',
+});
 
 export const createFeedingActivity = async (input: CreateFeedingInput) => {
   try {
