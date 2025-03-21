@@ -1,13 +1,13 @@
 # BabyLog
 
-## A newborn baby activity tracking app the keeps trck of baby's growth.
+## A newborn baby activity tracking app the keeps track of baby's growth.
 
 Team Members:
 
 - Omer Cagri SAYIR
 - Gurpreet KAUR
 - Bolaji ABDUL
-- Akeem ADEJUMO
+- 
 
 ## To Start
 

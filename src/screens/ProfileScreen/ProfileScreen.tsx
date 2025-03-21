@@ -30,22 +30,41 @@ const ProfileScreen = () => {
     }
   };
 
-  const MenuButton = ({ icon, title, onPress }: { icon: string; title: string; onPress?: () => void }) => (
+  const MenuButton = ({
+    icon,
+    title,
+    onPress,
+  }: {
+    icon: string;
+    title: string;
+    onPress?: () => void;
+  }) => (
     <TouchableOpacity style={styles.menuButton} onPress={onPress}>
       <Icon name={icon} size={24} color={isDarkMode ? '#FFFFFF' : '#333333'} />
-      <Text style={[styles.menuButtonText, isDarkMode && styles.textLight]}>{title}</Text>
-      <Icon name="chevron-right" size={24} color={isDarkMode ? '#FFFFFF80' : '#33333380'} />
+      <Text style={[styles.menuButtonText, isDarkMode && styles.textLight]}>
+        {title}
+      </Text>
+      <Icon
+        name="chevron-right"
+        size={24}
+        color={isDarkMode ? '#FFFFFF80' : '#33333380'}
+      />
     </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView style={[styles.container, isDarkMode && styles.containerDark]}>
+    <SafeAreaView
+      style={[styles.container, isDarkMode && styles.containerDark]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Profile Header */}
         <View style={styles.header}>
           <View style={styles.avatarContainer}>
             <Image
-              source={{ uri: 'https://ui-avatars.com/api/?name=' + (user?.username || 'User') }}
+              source={{
+                uri:
+                  'https://ui-avatars.com/api/?name=' +
+                  (user?.username || 'User'),
+              }}
               style={styles.avatar}
             />
             <TouchableOpacity style={styles.editAvatarButton}>
@@ -55,19 +74,25 @@ const ProfileScreen = () => {
           <Text style={[styles.userName, isDarkMode && styles.textLight]}>
             {user?.username || 'User Name'}
           </Text>
-          <Text style={styles.userEmail}>{user?.signInDetails?.loginId || 'email@example.com'}</Text>
+          <Text style={styles.userEmail}>
+            {user?.signInDetails?.loginId || 'email@example.com'}
+          </Text>
         </View>
 
         {/* Menu Section */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, isDarkMode && styles.textLight]}>Account Settings</Text>
+          <Text style={[styles.sectionTitle, isDarkMode && styles.textLight]}>
+            Account Settings
+          </Text>
           <MenuButton icon="person-outline" title="Edit Profile" />
           <MenuButton icon="notifications-none" title="Notifications" />
           <MenuButton icon="lock-outline" title="Privacy" />
         </View>
 
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, isDarkMode && styles.textLight]}>Preferences</Text>
+          <Text style={[styles.sectionTitle, isDarkMode && styles.textLight]}>
+            Preferences
+          </Text>
           <MenuButton icon="color-lens" title="Appearance" />
           <MenuButton icon="language" title="Language" />
           <MenuButton icon="help-outline" title="Help & Support" />
@@ -89,7 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2F2F7',
   },
   containerDark: {
-    backgroundColor: '#000000',
+    backgroundColor: '#1C1C1E',
   },
   header: {
     alignItems: 'center',
