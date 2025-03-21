@@ -43,6 +43,7 @@ export type BottomTabNavigatorParamList = {
   Home: undefined;
   'News Feed': undefined;
   Profile: undefined;
+  Feedback: undefined;
 };
 
 // Auth Stack Navigator

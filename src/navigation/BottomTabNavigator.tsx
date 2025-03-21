@@ -5,6 +5,7 @@ import HomeStackNavigator from './HomeStackNavigator';
 import ProfileScreen from '../screens/ProfileScreen';
 import type { BottomTabNavigatorParamList } from '../types/navigation';
 import NewsFeedScreen from '../screens/NewsFeedScreen';
+import FeedbackScreen from '../screens/FeedbackScreen';
 
 const Tab = createBottomTabNavigator<BottomTabNavigatorParamList>();
 
@@ -21,6 +22,8 @@ const BottomTabNavigator = () => {
             iconName = focused ? 'newspaper' : 'newspaper-outline';
           } else if (route.name === 'Profile') {
             iconName = focused ? 'person' : 'person-outline';
+          } else if (route.name === 'Feedback') {
+            iconName = focused ? 'chatbubble' : 'chatbubble-outline';
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -34,6 +37,7 @@ const BottomTabNavigator = () => {
         options={{ headerShown: false }}
       />
       <Tab.Screen name="News Feed" component={NewsFeedScreen} />
+      <Tab.Screen name="Feedback" component={FeedbackScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
